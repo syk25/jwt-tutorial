@@ -6,5 +6,5 @@ import syk25.jwttutorial.entity.UserEntity;
 
 @Repository
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
-
+    Boolean existsByUsername(String username);
 }
