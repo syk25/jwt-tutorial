@@ -12,6 +12,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import syk25.jwttutorial.jwt.JwtFilter;
 import syk25.jwttutorial.jwt.JwtUtil;
 import syk25.jwttutorial.jwt.LoginFilter;
 
@@ -57,6 +58,8 @@ public class SecurityConfig {
                         .requestMatchers("/admin").hasRole("ADMIN")
                         .anyRequest().authenticated());
 
+        http
+                .addFilterBefore(new JwtFilter(jwtUtil), LoginFilter.class);
         // 필터 추가 - 로그인 필터 : 계정정보 확인
         http
                 .addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil), UsernamePasswordAuthenticationFilter.class);
